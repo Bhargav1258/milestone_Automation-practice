@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Automation Practice Smoke Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Smoke Testing(failed)">
+    <groups>
+      <run>
+        <include name="smoke"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="tests.AutomationPracticeTest">
+        <methods>
+          <include name="Unit1_GUIElements" invocation-numbers="0"/>
+          <include name="Unit5_Form"/>
+          <include name="Unit3_FileUpload"/>
+          <include name="Unit9_AdvancedMouseValidation"/>
+        </methods>
+      </class> <!-- tests.AutomationPracticeTest -->
+    </classes>
+  </test> <!-- Smoke Testing(failed) -->
+</suite> <!-- Failed suite [Automation Practice Smoke Suite] -->

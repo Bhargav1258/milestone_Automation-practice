@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Automation Practice Full Regression Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Regression Testing(failed)">
+    <groups>
+      <run>
+        <include name="smoke"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="tests.AutomationPracticeTest">
+        <methods>
+          <include name="Unit1_GUIElements"/>
+          <include name="Unit5_Form"/>
+          <include name="printValidLinksTest"/>
+          <include name="Unit3_FileUpload"/>
+          <include name="Unit9_AdvancedMouseValidation"/>
+          <include name="startBrowser"/>
+        </methods>
+      </class> <!-- tests.AutomationPracticeTest -->
+    </classes>
+  </test> <!-- Regression Testing(failed) -->
+</suite> <!-- Failed suite [Automation Practice Full Regression Suite] -->
