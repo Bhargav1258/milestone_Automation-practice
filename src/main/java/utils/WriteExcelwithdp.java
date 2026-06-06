@@ -19,38 +19,46 @@ public class WriteExcelwithdp {
                 file.getParentFile().mkdirs();
             }
 
+            XSSFWorkbook workbook;
             if (file.exists()) {
-                file.delete();
+                try (FileInputStream fis = new FileInputStream(file)) {
+                    workbook = new XSSFWorkbook(fis);
+                }
+            } else {
+                workbook = new XSSFWorkbook();
             }
 
-            XSSFWorkbook workbook = new XSSFWorkbook();
-
-            // Inputs
-            Sheet formSheet = workbook.createSheet("FormInputsData");
-            Row headerRow = formSheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Name");
-            headerRow.createCell(1).setCellValue("Email");
-            headerRow.createCell(2).setCellValue("Phone");
-            headerRow.createCell(3).setCellValue("Address");
-
-            // Seed sample row so DataProvider functions correctly on first run
-            Row dataRow = formSheet.createRow(1);
-            dataRow.createCell(0).setCellValue("Bhargav");
-            dataRow.createCell(1).setCellValue("bhargav@gmail.com");
-            dataRow.createCell(2).setCellValue("9876543210");
-            dataRow.createCell(3).setCellValue("Kakinada");
-
-            workbook.createSheet("WikipediaKeywords");
-
-            // Outputs
-            workbook.createSheet("SmokeSuite");
-            workbook.createSheet("RegressionSuite");
+            // Kept only your data-driven inputs and output tracking sheets
+            String[] sheets = {"FormInputsData", "SmokeSuite", "RegressionSuite"};
+            for (String sheetName : sheets) {
+                if (workbook.getSheet(sheetName) == null) {
+                    Sheet sheet = workbook.createSheet(sheetName);
+                    Row header = sheet.createRow(0);
+                    
+                    if (sheetName.endsWith("Suite")) {
+                        header.createCell(0).setCellValue("Test Case / Scenario Name");
+                        header.createCell(1).setCellValue("Status");
+                        header.createCell(2).setCellValue("Execution Timestamp");
+                    } else if (sheetName.equals("FormInputsData")) {
+                        header.createCell(0).setCellValue("Name");
+                        header.createCell(1).setCellValue("Email");
+                        header.createCell(2).setCellValue("Phone");
+                        header.createCell(3).setCellValue("Address");
+                        
+                        Row dataRow = sheet.createRow(1);
+                        dataRow.createCell(0).setCellValue("Bhargav");
+                        dataRow.createCell(1).setCellValue("bhargav@gmail.com");
+                        dataRow.createCell(2).setCellValue("9876543210");
+                        dataRow.createCell(3).setCellValue("Kakinada");
+                    }
+                }
+            }
 
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 workbook.write(fos);
             }
             workbook.close();
-            System.out.println("✅ Unified Excel workbook initialized at: " + path);
+            System.out.println("✅ Master Excel File verified/initialized at: " + path);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,6 +68,7 @@ public class WriteExcelwithdp {
     public Object[][] readInputMatrix(String sheetName) {
         Object[][] data = null;
         File file = new File(path);
+        if (!file.exists()) return new Object[0][0];
 
         try (FileInputStream fis = new FileInputStream(file);
              Workbook workbook = new XSSFWorkbook(fis)) {
@@ -77,8 +86,12 @@ public class WriteExcelwithdp {
             for (int i = 1; i <= rowCount; i++) {
                 Row row = sheet.getRow(i);
                 for (int j = 0; j < colCount; j++) {
-                    Cell cell = (row != null) ? row.getCell(j) : null;
-                    data[i - 1][j] = formatter.formatCellValue(cell).trim();
+                    if (row == null) {
+                        data[i - 1][j] = "";
+                    } else {
+                        Cell cell = row.getCell(j);
+                        data[i - 1][j] = formatter.formatCellValue(cell).trim();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -87,51 +100,54 @@ public class WriteExcelwithdp {
         return data;
     }
 
-    // ================= UPGRADED SAFE OUTPUT RECORDER ENGINE =================
-    public synchronized void writeSuiteResults(String suiteSheetName, String testCaseName, String executionStatus) {
+    // ================= WRITE SUITE RUN RESULTS =================
+ // ================= SAFE MULTI-ROW SUITE RESULTS LOGGER =================
+    public synchronized void logSuiteResult(String suiteSheetName, String testName, String status) {
         File file = new File(path);
         XSSFWorkbook workbook = null;
 
-        // 1. Read existing workbook layout safely into memory
+        // 1. ALWAYS load current live layout from disk to preserve row 1 before writing row 2
         try (FileInputStream fis = new FileInputStream(file)) {
             workbook = new XSSFWorkbook(fis);
         } catch (Exception e) {
-            System.err.println("❌ Error opening Excel data stream: " + e.getMessage());
+            System.err.println("❌ Error loading Excel for data tracking: " + e.getMessage());
             return;
         }
 
-        // 2. Append metrics row safely to the specified sheet
         try {
             Sheet sheet = workbook.getSheet(suiteSheetName);
             if (sheet == null) {
                 sheet = workbook.createSheet(suiteSheetName);
             }
 
-            // High-safety row index calculation
-            int nextRowIndex = 0;
-            if (sheet.getPhysicalNumberOfRows() > 0) {
-                nextRowIndex = sheet.getLastRowNum() + 1;
+            // 2. Safe calculation: finds the true bottom of the sheet dynamically
+            int nextRowIndex = sheet.getPhysicalNumberOfRows(); 
+            if (nextRowIndex == 0) {
+                // Create headers if the sheet is completely blank
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Test Case / Scenario Name");
+                header.createCell(1).setCellValue("Status");
+                header.createCell(2).setCellValue("Execution Timestamp");
+                nextRowIndex = 1;
             }
-            
+
             Row row = sheet.createRow(nextRowIndex);
             String timeStampStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-            // Write test results directly into the spreadsheet columns
-            row.createCell(0).setCellValue(testCaseName);
-            row.createCell(1).setCellValue(executionStatus);
+            // 3. Append the incoming scenario iteration data seamlessly
+            row.createCell(0).setCellValue(testName);
+            row.createCell(1).setCellValue(status); 
             row.createCell(2).setCellValue(timeStampStr);
 
-            // 3. Force save data to disk and release file lock instantly
+            // 4. Force save back to the file system immediately
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 workbook.write(fos);
                 fos.flush();
             }
             workbook.close();
-            System.out.println("📌 Saved runtime execution log to: [" + suiteSheetName + "] at row " + nextRowIndex);
+            System.out.println("📌 Saved to Excel -> Sheet: [" + suiteSheetName + "] at Row: " + nextRowIndex + " for data profile.");
 
         } catch (Exception e) {
-            System.err.println("❌ Error saving runtime data row to report sheet: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("❌ Error appending iteration data: " + e.getMessage());
         }
-    }
-}
+    }}

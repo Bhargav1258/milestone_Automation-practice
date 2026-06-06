@@ -1,14 +1,18 @@
 package tests;
 
 import org.testng.annotations.AfterClass;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import base.BaseClass;
 import pages.AutomationPracticePage;
 import utils.WriteExcelwithdp;
 
+
+@Listeners(listeners.TestListener.class)
 public class AutomationPracticeTest extends BaseClass {
 
 	AutomationPracticePage page;
@@ -40,6 +44,11 @@ public class AutomationPracticeTest extends BaseClass {
                 "bhargav@gmail.com",
                 "9876543210",
                 "Kakinada"
+            }, {
+                "pavan",
+                "pavan@gmail.com",
+                "9876543210",
+                "mumbai"
             }
         };
     }
@@ -80,16 +89,18 @@ public class AutomationPracticeTest extends BaseClass {
     // ==================================
 
     @Test(priority = 2,groups = { "regression" })
-    public void Unit2_DatePickers() {
+    public void Unit2_DatePickers() throws InterruptedException {
 
         page.selectDatePicker1("06/05/2026");
+        Thread.sleep(1000);
         page.selectDatePicker2("05/06/2026");
-
+        Thread.sleep(1000);
 
 
         page.selectDateRange(
                 "01-06-2026",
                 "10-06-2026");
+        Thread.sleep(1000);
 
         page.submitDateRange();
     }
@@ -99,32 +110,36 @@ public class AutomationPracticeTest extends BaseClass {
     // ==================================
 
     @Test(priority = 3, groups = { "smoke" })
-    public void Unit3_FileUpload() {
+    public void Unit3_FileUpload() throws InterruptedException {
 
         page.uploadSingleFile(
             "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+        Thread.sleep(1000);
 
         page.uploadMultipleFiles(
             "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg",
             "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+        Thread.sleep(1000);
     }
     @Test(priority = 4,groups = { "regression" })
-    public void Unit4_PaginationWebTable() {
+    public void Unit4_PaginationWebTable() throws InterruptedException {
 
         System.out.println(
                 "Total Pages = "
                 + page.getTotalPages());
 
         page.selectAllProductsInAllPages();
+        Thread.sleep(1000);
     }
     @Test(priority = 5, groups = { "smoke" })
     public void Unit5_Form()
             throws InterruptedException {
 
         page.fillSection1("Bhargav");
+        Thread.sleep(2000);
 
         page.fillSection2("Automation Testing");
-
+        Thread.sleep(2000);
         page.fillSection3("Selenium TestNG");
 
         Thread.sleep(2000);
@@ -133,8 +148,9 @@ public class AutomationPracticeTest extends BaseClass {
                 "Form Submitted Successfully");
     }
     @Test(priority = 6,groups = { "smoke" })
-    public void printValidLinksTest() {
+    public void printValidLinksTest() throws InterruptedException {
         System.out.println("Executing priority 6 test - printValidLinks");
+        Thread.sleep(2000);
         
         // call your method here
         printValidLinks();
@@ -149,8 +165,9 @@ public class AutomationPracticeTest extends BaseClass {
     // ==================================
 
     @Test(priority = 7,groups = { "regression" })
-    public void Unit7_TabsAndWindowsValidation() {
+    public void Unit7_TabsAndWindowsValidation() throws InterruptedException {
         System.out.println("Executing priority 7 test - Wikipedia Search, Tab Swap, & Focus Reset");
+        Thread.sleep(2000);
         
         // Data is managed directly inside the POM method layer
         page.searchWikipediaAndNavigateTab();
@@ -163,6 +180,7 @@ public class AutomationPracticeTest extends BaseClass {
     @Test(priority = 8, groups = { "regression" })
     public void Unit8_AlertsAndPopupsValidation() throws InterruptedException {
         System.out.println("Executing priority 8 test - Alerts & Popups");
+        Thread.sleep(2000);
         
         // Triggers the entire simple, confirm, and prompt sequential flow
         page.executeUnit8_AlertsAndPopups();

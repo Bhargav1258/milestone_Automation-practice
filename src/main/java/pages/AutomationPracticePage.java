@@ -15,10 +15,23 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AutomationPracticePage {
 
     WebDriver driver;
+    public void enterFieldWithAutoScroll(By locator, String value) {
+        WebElement element = driver.findElement(locator);
+        
+        // 🚀 The JavaScript Command to scroll up or down automatically right to the element
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+        
+        // Brief pause to let the smooth scrolling complete before typing
+        try { Thread.sleep(300); } catch (Exception e) {}
+        
+        element.clear();
+        element.sendKeys(value);
+    }
 
     public AutomationPracticePage(WebDriver driver) {
         this.driver = driver;
     }
+    
 
     // ==================================
     // UNIT 1 - GUI ELEMENTS
@@ -191,70 +204,80 @@ public class AutomationPracticePage {
  // UNIT 4 - PAGINATION WEB TABLE
  // ==================================
 
-	 By pages =
-	         By.xpath("//ul[@id='pagination']/li");
-	
-	 By tableRows =
-         By.xpath("//table[@id='productTable']/tbody/tr");
-	 
-	 public int getTotalPages() {
+    By pages =
+            By.xpath("//ul[@id='pagination']/li");
 
-		    return driver.findElements(pages).size();
-		}
-	 public void selectAllProductsInAllPages() {
+   By tableRows =
+            By.xpath("//table[@id='productTable']/tbody/tr");
 
-		    List<WebElement> totalPages =
-		            driver.findElements(pages);
+   public int getTotalPages() {
 
-		    int pageCount = totalPages.size();
+       return driver.findElements(pages).size();
+   }
 
-		    JavascriptExecutor js =
-		            (JavascriptExecutor) driver;
+   public void selectAllProductsInAllPages() throws InterruptedException {
 
-		    for(int p=1; p<=pageCount; p++) {
+       List<WebElement> totalPages =
+               driver.findElements(pages);
 
-		        if(p>1) {
+       int pageCount = totalPages.size();
 
-		            driver.findElement(
-		            By.xpath("//ul[@id='pagination']/li["+p+"]"))
-		            .click();
-		        }
+       JavascriptExecutor js =
+               (JavascriptExecutor) driver;
 
-		        List<WebElement> rows =
-		                driver.findElements(tableRows);
+       for(int p=1; p<=pageCount; p++) {
 
-		        for(int r=1; r<=rows.size(); r++) {
+           if(p>1) {
 
-		            String product =
-		            driver.findElement(
-		            By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[2]"))
-		            .getText();
+               driver.findElement(
+               By.xpath("//ul[@id='pagination']/li["+p+"]"))
+               .click();
 
-		            String price =
-		            driver.findElement(
-		            By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[3]"))
-		            .getText();
+           
+           }
 
-		            System.out.println(product +
-		                    " --> " + price);
+           List<WebElement> rows =
+                   driver.findElements(tableRows);
 
-		            WebElement checkbox =
-		            driver.findElement(
-		            By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[4]/input"));
+           for(int r=1; r<=rows.size(); r++) {
 
-		            if(!checkbox.isSelected()) {
+               String product =
+               driver.findElement(
+               By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[2]"))
+               .getText();
 
-		                js.executeScript(
-		                    "arguments[0].scrollIntoView(true);",
-		                    checkbox);
+               String price =
+               driver.findElement(
+               By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[3]"))
+               .getText();
 
-		                js.executeScript(
-		                    "arguments[0].click();",
-		                    checkbox);
-		            }
-		        }
-		    }
-		}
+               System.out.println(product +
+                       " --> " + price);
+
+               Thread.sleep(500); // wait before selecting checkbox
+
+               WebElement checkbox =
+               driver.findElement(
+               By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[4]/input"));
+
+               if(!checkbox.isSelected()) {
+
+                   js.executeScript(
+                       "arguments[0].scrollIntoView(true);",
+                       checkbox);
+
+                   Thread.sleep(500); // wait after scroll
+
+                   js.executeScript(
+                       "arguments[0].click();",
+                       checkbox);
+
+               }
+           }
+
+           Thread.sleep(1000); // wait before next page
+       }
+   }
 	// ==================================
 	// UNIT 5 - FORM
 	// ==================================
@@ -550,62 +573,65 @@ public class AutomationPracticePage {
 		// ==================================
 
 		public void executeUnit10_LinkTraversal() {
-			JavascriptExecutor js = (JavascriptExecutor) driver;
-			
-			// Capture the exact main dashboard window handle layout right now
-			String mainWindowHandle = driver.getWindowHandle();
+		    JavascriptExecutor js = (JavascriptExecutor) driver;
+		    
+		    // Capture the exact main dashboard window handle layout right now
+		    String mainWindowHandle = driver.getWindowHandle();
 
-			String[] targetLinks = {
-				"Apple", "Lenovo", "Dell", 
-				"Errorcode 400", "Errorcode 401", "Errorcode 403", 
-				"Errorcode 404", "Errorcode 408", "Errorcode 500", 
-				"Errorcode 502", "Errorcode 503"
-			};
+		    String[] targetLinks = {
+		        "Apple", "Lenovo", "Dell", 
+		        "Errorcode 400", "Errorcode 401", "Errorcode 403", 
+		        "Errorcode 404", "Errorcode 408", "Errorcode 500", 
+		        "Errorcode 502", "Errorcode 503"
+		    };
 
-			System.out.println("Processing " + targetLinks.length + " links silently...");
+		    System.out.println("🚀 Processing " + targetLinks.length + " links silently...");
 
-			for (String linkText : targetLinks) {
-				try {
-					// 1. Ensure the driver context is explicitly forced back onto the main page layout first
-					driver.switchTo().window(mainWindowHandle);
+		    for (String linkText : targetLinks) {
+		        try {
+		            // 1. Ensure the driver context is explicitly forced back onto the main page layout first
+		            driver.switchTo().window(mainWindowHandle);
 
-					// 2. Locate the link dynamically
-					WebElement currentLink = driver.findElement(By.linkText(linkText));
-					
-					// 3. Scroll it into layout view smoothly
-					js.executeScript("arguments[0].scrollIntoView({block: 'center'});", currentLink);
-					Thread.sleep(500);
+		            // 2. Locate the link dynamically
+		            WebElement currentLink = driver.findElement(By.linkText(linkText));
+		            
+		            // 3. Scroll it into layout view smoothly
+		            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", currentLink);
+		            Thread.sleep(500);
 
-					// 4. Click it
-					currentLink.click();
-					Thread.sleep(1500); // Give the tab or redirect page a brief moment to process
+		            // 4. Click it
+		            currentLink.click();
+		            Thread.sleep(1500); // Give the tab or redirect page a brief moment to process
 
-					// 5. Handle Tab Isolation immediately to prevent getting stuck
-					java.util.Set<String> allWindows = driver.getWindowHandles();
-					if (allWindows.size() > 1) {
-						for (String windowHandle : allWindows) {
-							if (!windowHandle.equals(mainWindowHandle)) {
-								driver.switchTo().window(windowHandle);
-								driver.close(); // Instantly destroy the new tab view
-							}
-						}
-						// Return focus context back to the primary layout grid tracking system
-						driver.switchTo().window(mainWindowHandle);
-					} else {
-						// If it opened inside the same tab frame layout, immediately hit back to protect the pipeline
-						driver.navigate().back();
-						Thread.sleep(1000);
-					}
+		            // 🌟 PRINT STATEMENT: Prints exactly which link text was just opened
+		            System.out.println("🔗 link opened: " + linkText);
 
-				} catch (Exception e) {
-					// Kept completely blank/silent so no annoying error stack traces fill your console!
-					// Force focus reset anyway to allow the next item loop to proceed cleanly
-					try {
-						driver.switchTo().window(mainWindowHandle);
-					} catch (Exception windowEx) {
-						// Fallback capture block
-					}
-				}
-			}
-			System.out.println("=== UNIT 10 COMPLETE: ALL LINKS TRAVERSED SILENTLY ===");
+		            // 5. Handle Tab Isolation immediately to prevent getting stuck
+		            java.util.Set<String> allWindows = driver.getWindowHandles();
+		            if (allWindows.size() > 1) {
+		                for (String windowHandle : allWindows) {
+		                    if (!windowHandle.equals(mainWindowHandle)) {
+		                        driver.switchTo().window(windowHandle);
+		                        driver.close(); // Instantly destroy the new tab view
+		                    }
+		                }
+		                // Return focus context back to the primary layout grid tracking system
+		                driver.switchTo().window(mainWindowHandle);
+		            } else {
+		                // If it opened inside the same tab frame layout, immediately hit back to protect the pipeline
+		                driver.navigate().back();
+		                Thread.sleep(1000);
+		            }
+
+		        } catch (Exception e) {
+		            // Kept completely blank/silent so no annoying error stack traces fill your console!
+		            // Force focus reset anyway to allow the next item loop to proceed cleanly
+		            try {
+		                driver.switchTo().window(mainWindowHandle);
+		            } catch (Exception windowEx) {
+		                // Fallback capture block
+		            }
+		        }
+		    }
+		    System.out.println("=== UNIT 10 COMPLETE: ALL LINKS TRAVERSED SILENTLY ===");
 		}}
