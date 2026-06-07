@@ -58,6 +58,12 @@ public class WriteExcelwithdp {
                         dataRow.createCell(1).setCellValue("bhargav@gmail.com");
                         dataRow.createCell(2).setCellValue("9876543210");
                         dataRow.createCell(3).setCellValue("Kakinada");
+                        
+                        Row row2 = sheet.createRow(2);
+                        row2.createCell(0).setCellValue("pavan");
+                        row2.createCell(1).setCellValue("pavan@gmail.com");
+                        row2.createCell(2).setCellValue("9876543210");
+                        row2.createCell(3).setCellValue("mumbai");  
                     }
                 }
             }

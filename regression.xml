@@ -1,12 +1,18 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="AutomationPracticeSuite">
+<suite name="RegressionSuite">
 
     <listeners>
         <listener class-name="listeners.TestListener"/>
     </listeners>
 
-    <test name="AllTests">
+    <test name="RegressionTests">
+
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
 
         <classes>
             <class name="tests.AutomationPracticeTest"/>

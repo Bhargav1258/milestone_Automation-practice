@@ -29,13 +29,15 @@ public class AutomationPracticeTest extends BaseClass {
     // alwaysRun = true guarantees this executes before your groups run
     @BeforeClass(alwaysRun = true)
     public void startBrowser() {
+
         System.out.println("🚀 Initializing browser and layout configurations...");
-       
+
+        setup();   
+
         page = new AutomationPracticePage(driver);
 
-        // Unified Single Excel configuration setup
         excel = new WriteExcelwithdp();
-        excel.createExcelFile(); // Generates C:\Users\Admin\exxcel1\TestData123.xlsx with all sheets
+        excel.createExcelFile();
     }
     // ==================================
     // COMMON SCROLL METHODS
