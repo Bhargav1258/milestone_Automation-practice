@@ -5,16 +5,7 @@
     <classes>
       <class name="tests.AutomationPracticeTest">
         <methods>
-          <include name="Unit1_GUIElements"/>
-          <include name="Unit2_DatePickers"/>
-          <include name="Unit8_AlertsAndPopupsValidation"/>
-          <include name="Unit7_TabsAndWindowsValidation"/>
-          <include name="Unit10_VerifyLaptopAndBrokenLinks"/>
-          <include name="Unit5_Form"/>
-          <include name="printValidLinksTest"/>
-          <include name="Unit3_FileUpload"/>
-          <include name="Unit9_AdvancedMouseValidation"/>
-          <include name="Unit4_PaginationWebTable"/>
+          <include name="Unit11_ShadowDOM"/>
           <include name="startBrowser"/>
         </methods>
       </class> <!-- tests.AutomationPracticeTest -->

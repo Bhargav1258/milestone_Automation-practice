@@ -1,11 +1,14 @@
 package pages;
 
+import java.io.File;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -418,6 +421,7 @@ public class AutomationPracticePage {
 
 		By alertButton = By.id("alertBtn");
 		By confirmButton = By.id("confirmBtn");
+		
 		By promptButton = By.id("promptBtn");
 
 		// Fixed Locators
@@ -429,13 +433,18 @@ public class AutomationPracticePage {
 
 		    // ---- Part 1: Alerts ----
 		    driver.findElement(alertButton).click();
+		    Thread.sleep(1000);
+		    
 		    driver.switchTo().alert().accept();
 
 		    driver.findElement(confirmButton).click();
+		    Thread.sleep(1000);
 		    driver.switchTo().alert().dismiss();
 
 		    driver.findElement(promptButton).click();
+		    Thread.sleep(3000);
 		    driver.switchTo().alert().sendKeys("Bhargav Automation");
+		    Thread.sleep(1000);
 		    driver.switchTo().alert().accept();
 
 		    // ---- Part 2: New Tab ----
@@ -568,15 +577,16 @@ public class AutomationPracticePage {
 				System.out.println("Advanced Mouse operations exception: " + e.getMessage());
 			}
 		}
-		// ==================================
-		// UNIT 10 - LINK TRAVERSAL VALIDATION
-		// ==================================
+		 // ==================================
+	    // UNIT 10 - LINK TRAVERSAL VALIDATION
+	    // ==================================
 
 		public void executeUnit10_LinkTraversal() {
 		    JavascriptExecutor js = (JavascriptExecutor) driver;
 		    
-		    // Capture the exact main dashboard window handle layout right now
+		    // Capture the exact main dashboard window handle layout and base homepage URL right now
 		    String mainWindowHandle = driver.getWindowHandle();
+		    String basePageUrl = driver.getCurrentUrl();
 
 		    String[] targetLinks = {
 		        "Apple", "Lenovo", "Dell", 
@@ -585,53 +595,181 @@ public class AutomationPracticePage {
 		        "Errorcode 502", "Errorcode 503"
 		    };
 
-		    System.out.println("🚀 Processing " + targetLinks.length + " links silently...");
+		    System.out.println("🚀 Processing " + targetLinks.length + " links dynamically via Page Load Waits...");
+
+		    // Set up a clean 15-second explicit wait engine
+		    org.openqa.selenium.support.ui.WebDriverWait wait = 
+		        new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(15));
 
 		    for (String linkText : targetLinks) {
 		        try {
-		            // 1. Ensure the driver context is explicitly forced back onto the main page layout first
+		            // 1. Ensure the driver context is explicitly focused back onto the main window layout
 		            driver.switchTo().window(mainWindowHandle);
 
-		            // 2. Locate the link dynamically
-		            WebElement currentLink = driver.findElement(By.linkText(linkText));
+		            // 🚀 STRATEGY FIX: If we are not on the base homepage, force-return to it immediately
+		            if (!driver.getCurrentUrl().equals(basePageUrl)) {
+		                driver.get(basePageUrl);
+		                wait.until(d -> js.executeScript("return document.readyState").equals("complete"));
+		            }
+
+		            // 2. 🚀 XPATH STRATEGY: Locate using a normalized text locator to counter DOM differences
+		            By linkLocator = By.xpath("//a[normalize-space()='" + linkText + "']");
+		            
+		            // Wait explicitly until the link is present and visible
+		            WebElement currentLink = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(linkLocator));
 		            
 		            // 3. Scroll it into layout view smoothly
 		            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", currentLink);
-		            Thread.sleep(500);
+		            Thread.sleep(500); // Give scroll physics a split second to settle
 
-		            // 4. Click it
+		            // 4. 🚀 CLICKABILITY GUARD: Wait explicitly until the element is truly ready to receive clicks
+		            wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(currentLink));
 		            currentLink.click();
-		            Thread.sleep(1500); // Give the tab or redirect page a brief moment to process
 
-		            // 🌟 PRINT STATEMENT: Prints exactly which link text was just opened
+		            // 5. THE LOAD WAIT FIX: Wait explicitly for the target page to finish loading its assets
+		            wait.until(d -> js.executeScript("return document.readyState").equals("complete"));
+		            
+		            // 🌟 PRINT STATEMENT: Instantly confirms the link opened successfully
 		            System.out.println("🔗 link opened: " + linkText);
+		            Thread.sleep(1000); // Keep open for 1 second so you can see it visually load
 
-		            // 5. Handle Tab Isolation immediately to prevent getting stuck
+		            // 6. Handle Isolation & Return Context
 		            java.util.Set<String> allWindows = driver.getWindowHandles();
 		            if (allWindows.size() > 1) {
+		                // Case A: If it opened in a fresh tab, destroy it and switch back
 		                for (String windowHandle : allWindows) {
 		                    if (!windowHandle.equals(mainWindowHandle)) {
 		                        driver.switchTo().window(windowHandle);
-		                        driver.close(); // Instantly destroy the new tab view
+		                        driver.close(); 
 		                    }
 		                }
-		                // Return focus context back to the primary layout grid tracking system
 		                driver.switchTo().window(mainWindowHandle);
 		            } else {
-		                // If it opened inside the same tab frame layout, immediately hit back to protect the pipeline
+		                // Case B: If it opened inside the same tab frame layout, go back
 		                driver.navigate().back();
-		                Thread.sleep(1000);
+		                
+		                // Wait until the dashboard returns and settles completely
+		                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.urlToBe(basePageUrl));
+		                wait.until(d -> js.executeScript("return document.readyState").equals("complete"));
+		                Thread.sleep(500); // Stabilization cushion
 		            }
 
 		        } catch (Exception e) {
-		            // Kept completely blank/silent so no annoying error stack traces fill your console!
-		            // Force focus reset anyway to allow the next item loop to proceed cleanly
+		            System.out.println("⚠️ Skipped or timed out processing link: [" + linkText + "]. Recovering page state...");
 		            try {
+		                // Emergency recovery fallback path to get back home
 		                driver.switchTo().window(mainWindowHandle);
+		                driver.get(basePageUrl); 
+		                wait.until(d -> js.executeScript("return document.readyState").equals("complete"));
 		            } catch (Exception windowEx) {
-		                // Fallback capture block
+		                // Fallback catch block
 		            }
 		        }
 		    }
 		    System.out.println("=== UNIT 10 COMPLETE: ALL LINKS TRAVERSED SILENTLY ===");
+		}
+		
+		// ==================================
+		// UNIT 11 - SHADOW DOM
+		// ==================================
+
+	
+		public void executeUnit11_ShadowDOM() throws InterruptedException {
+
+		    JavascriptExecutor js =(JavascriptExecutor) driver;
+
+		    // Scroll to Shadow DOM section
+		    WebElement shadowHost = driver.findElement(By.id("shadow_host"));
+
+		    js.executeScript( "arguments[0].scrollIntoView({block:'center'});", shadowHost);
+
+		    Thread.sleep(2000);
+
+		    SearchContext shadowRoot = shadowHost.getShadowRoot();
+
+		    System.out.println("===== UNIT 11 =====");
+
+		    // Print Mobile & Laptop
+		    String shadowText = shadowRoot.findElement(By.cssSelector(".info")).getText();
+
+		    System.out.println(shadowText);
+
+		    Thread.sleep(1000);
+
+		    // Blog Link
+		    WebElement blogLink = shadowRoot.findElement(By.linkText("Blog"));
+
+		    String blogUrl =blogLink.getAttribute("href");
+
+		    String mainWindow = driver.getWindowHandle();
+
+		    // Open Blog in new tab using JS
+		    js.executeScript( "window.open(arguments[0]);", blogUrl);
+
+		    Thread.sleep(3000);
+
+		    String blogTitle = "";
+
+		    for(String win : driver.getWindowHandles()) {
+
+		        if(!win.equals(mainWindow)) {
+		        	driver.switchTo().window(win);
+		        	blogTitle =driver.getTitle();
+
+		            System.out.println( "Blog Title : " + blogTitle);
+
+		            Thread.sleep(2000);
+
+		            driver.close();
+
+		            break;
+		        }
+		    }
+
+		    driver.switchTo().window(mainWindow);
+
+		    Thread.sleep(2000);
+
+		    // Re-acquire Shadow DOM
+		    shadowHost =
+		            driver.findElement(By.id("shadow_host"));
+
+		    shadowRoot =
+		            shadowHost.getShadowRoot();
+
+		    // Textbox
+		    WebElement txtBox =
+		            shadowRoot.findElement(
+		            By.cssSelector("input[type='text']"));
+
+		    txtBox.clear();
+
+		    txtBox.sendKeys(blogTitle);
+
+		    Thread.sleep(1000);
+
+		    // Checkbox
+		    WebElement checkbox =
+		            shadowRoot.findElement(
+		            By.cssSelector("input[type='checkbox']"));
+
+		    if(!checkbox.isSelected()) {
+
+		        checkbox.click();
+		    }
+
+		    Thread.sleep(1000);
+
+		    // Upload File
+		    WebElement upload =
+		            shadowRoot.findElement(
+		            By.cssSelector("input[type='file']"));
+
+		    upload.sendKeys(
+		    "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+
+		    Thread.sleep(2000);
+
+		    System.out.println(
+		            "===== UNIT 11 COMPLETED =====");
 		}}

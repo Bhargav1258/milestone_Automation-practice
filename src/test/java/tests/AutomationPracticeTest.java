@@ -1,11 +1,19 @@
 package tests;
 
+import static org.testng.AssertJUnit.assertTrue;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 
 import base.BaseClass;
 import pages.AutomationPracticePage;
@@ -22,13 +30,33 @@ public class AutomationPracticeTest extends BaseClass {
     @BeforeClass(alwaysRun = true)
     public void startBrowser() {
         System.out.println("🚀 Initializing browser and layout configurations...");
-        setup();
+       
         page = new AutomationPracticePage(driver);
 
         // Unified Single Excel configuration setup
         excel = new WriteExcelwithdp();
         excel.createExcelFile(); // Generates C:\Users\Admin\exxcel1\TestData123.xlsx with all sheets
     }
+    // ==================================
+    // COMMON SCROLL METHODS
+    // ==================================
+
+    public void scrollToElement(By locator)
+            throws InterruptedException {
+
+        WebElement element =
+                driver.findElement(locator);
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) driver;
+
+        js.executeScript(
+                "arguments[0].scrollIntoView({block:'center'});",
+                element);
+
+        Thread.sleep(1000);
+    }
+
 
     // ==================================
     // DATAPROVIDER
@@ -103,6 +131,7 @@ public class AutomationPracticeTest extends BaseClass {
         Thread.sleep(1000);
 
         page.submitDateRange();
+        Thread.sleep(2000);
     }
 
     // ==================================
@@ -112,23 +141,51 @@ public class AutomationPracticeTest extends BaseClass {
     @Test(priority = 3, groups = { "smoke" })
     public void Unit3_FileUpload() throws InterruptedException {
 
+        JavascriptExecutor js =
+                (JavascriptExecutor) driver;
+
+        WebElement fileUploadSection =
+                driver.findElement(By.id("singleFileInput"));
+
+        js.executeScript(
+                "arguments[0].scrollIntoView({block:'center'});",
+                fileUploadSection);
+
+        Thread.sleep(2000);
+
         page.uploadSingleFile(
-            "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+                "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+
         Thread.sleep(1000);
 
         page.uploadMultipleFiles(
-            "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg",
-            "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+                "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg",
+                "C:\\Users\\Admin\\OneDrive\\Pictures\\133907427220636723.jpg");
+
         Thread.sleep(1000);
     }
-    @Test(priority = 4,groups = { "regression" })
-    public void Unit4_PaginationWebTable() throws InterruptedException {
+    @Test(priority = 4, groups = { "regression" })
+    public void Unit4_PaginationWebTable()
+            throws InterruptedException {
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) driver;
+
+        WebElement tableSection =
+                driver.findElement(By.id("productTable"));
+
+        js.executeScript(
+                "arguments[0].scrollIntoView({block:'center'});",
+                tableSection);
+
+        Thread.sleep(2000);
 
         System.out.println(
                 "Total Pages = "
                 + page.getTotalPages());
 
         page.selectAllProductsInAllPages();
+
         Thread.sleep(1000);
     }
     @Test(priority = 5, groups = { "smoke" })
@@ -207,4 +264,11 @@ public class AutomationPracticeTest extends BaseClass {
         // Triggers the targeted click-print-return cycle for Apple, Lenovo, Dell and the error links
         page.executeUnit10_LinkTraversal();
     }
-}
+   
+    @Test(priority = 11,
+    	      groups = {"regression"})
+    	public void Unit11_ShadowDOM()
+    	        throws InterruptedException {
+
+    	    page.executeUnit11_ShadowDOM();
+    	}}

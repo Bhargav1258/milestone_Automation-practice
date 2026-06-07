@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="9" total="10" passed="1" failed="0" skipped="0">
+<testng-results ignored="10" total="11" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-06-06T14:45:31 IST" name="Default suite" finished-at="2026-06-06T14:46:25 IST" duration-ms="54068">
+  <suite started-at="2026-06-07T11:33:07 IST" name="Default suite" finished-at="2026-06-07T11:33:35 IST" duration-ms="27968">
     <groups>
       <group name="regression">
-        <method signature="AutomationPracticeTest.Unit4_PaginationWebTable()[pri:4, instance:tests.AutomationPracticeTest@192c3f1e]" name="Unit4_PaginationWebTable" class="tests.AutomationPracticeTest"/>
+        <method signature="AutomationPracticeTest.Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@68567e20]" name="Unit11_ShadowDOM" class="tests.AutomationPracticeTest"/>
       </group> <!-- regression -->
     </groups>
-    <test started-at="2026-06-06T14:45:31 IST" name="Default test" finished-at="2026-06-06T14:46:25 IST" duration-ms="54068">
+    <test started-at="2026-06-07T11:33:07 IST" name="Default test" finished-at="2026-06-07T11:33:35 IST" duration-ms="27968">
       <class name="tests.AutomationPracticeTest">
-        <test-method is-config="true" signature="startBrowser()[pri:0, instance:tests.AutomationPracticeTest@192c3f1e]" started-at="2026-06-06T14:45:34 IST" name="startBrowser" finished-at="2026-06-06T14:45:55 IST" duration-ms="20370" status="PASS">
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.AutomationPracticeTest@68567e20]" started-at="2026-06-07T11:33:10 IST" name="setup" finished-at="2026-06-07T11:33:19 IST" duration-ms="8714" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method is-config="true" signature="startBrowser()[pri:0, instance:tests.AutomationPracticeTest@68567e20]" started-at="2026-06-07T11:33:19 IST" name="startBrowser" finished-at="2026-06-07T11:33:19 IST" duration-ms="316" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startBrowser -->
-        <test-method signature="Unit4_PaginationWebTable()[pri:4, instance:tests.AutomationPracticeTest@192c3f1e]" started-at="2026-06-06T14:45:55 IST" name="Unit4_PaginationWebTable" finished-at="2026-06-06T14:46:24 IST" duration-ms="29600" status="PASS">
+        <test-method signature="Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@68567e20]" started-at="2026-06-07T11:33:19 IST" name="Unit11_ShadowDOM" finished-at="2026-06-07T11:33:34 IST" duration-ms="15182" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- Unit4_PaginationWebTable -->
+        </test-method> <!-- Unit11_ShadowDOM -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.AutomationPracticeTest@68567e20]" started-at="2026-06-07T11:33:34 IST" name="tearDown" finished-at="2026-06-07T11:33:35 IST" duration-ms="548" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
       </class> <!-- tests.AutomationPracticeTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->

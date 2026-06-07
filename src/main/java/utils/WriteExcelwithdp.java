@@ -13,18 +13,26 @@ public class WriteExcelwithdp {
     private final String path = "C:\\Users\\Admin\\exxcel1\\TestData123.xlsx";
 
     public void createExcelFile() {
+        File file = new File(path);
         try {
-            File file = new File(path);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
 
-            XSSFWorkbook workbook;
+            XSSFWorkbook workbook = null;
+            
+            // Safe Load Check: Prevents NotOfficeXmlFileException crashes due to file corruption
             if (file.exists()) {
                 try (FileInputStream fis = new FileInputStream(file)) {
                     workbook = new XSSFWorkbook(fis);
+                } catch (Exception e) {
+                    System.err.println("⚠️ Existing Excel file was corrupted or unreadable. Resetting template file structural integrity...");
+                    workbook = null; // Forces fresh generation below
                 }
-            } else {
+            }
+
+            // Fallback generation logic if the file is fresh, empty, or corrupted
+            if (workbook == null) {
                 workbook = new XSSFWorkbook();
             }
 
@@ -56,11 +64,13 @@ public class WriteExcelwithdp {
 
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 workbook.write(fos);
+                fos.flush();
             }
             workbook.close();
-            System.out.println("✅ Master Excel File verified/initialized at: " + path);
+            System.out.println("✅ Master Excel File verified/initialized safely at: " + path);
 
         } catch (Exception e) {
+            System.err.println("❌ Failed to verify excel path structure: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -100,8 +110,7 @@ public class WriteExcelwithdp {
         return data;
     }
 
-    // ================= WRITE SUITE RUN RESULTS =================
- // ================= SAFE MULTI-ROW SUITE RESULTS LOGGER =================
+    // ================= SAFE MULTI-ROW SUITE RESULTS LOGGER =================
     public synchronized void logSuiteResult(String suiteSheetName, String testName, String status) {
         File file = new File(path);
         XSSFWorkbook workbook = null;
@@ -110,7 +119,7 @@ public class WriteExcelwithdp {
         try (FileInputStream fis = new FileInputStream(file)) {
             workbook = new XSSFWorkbook(fis);
         } catch (Exception e) {
-            System.err.println("❌ Error loading Excel for data tracking: " + e.getMessage());
+            System.err.println("❌ Error opening Excel for scenario status logging: " + e.getMessage());
             return;
         }
 
@@ -150,4 +159,5 @@ public class WriteExcelwithdp {
         } catch (Exception e) {
             System.err.println("❌ Error appending iteration data: " + e.getMessage());
         }
-    }}
+    }
+}
