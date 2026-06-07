@@ -80,7 +80,9 @@ public class AutomationPracticeTest extends BaseClass {
                 "9876543210",
                 "mumbai"
             }
+            
         };
+        
     }
 
     // ==================================
