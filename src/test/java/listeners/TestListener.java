@@ -4,21 +4,27 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+
+import utils.ExtentManager;
 import utils.WriteExcelwithdp;
 
 public class TestListener implements ITestListener {
 
     WriteExcelwithdp excel = new WriteExcelwithdp();
 
+    private ExtentReports extent =
+            ExtentManager.getReport();
+
+    private ExtentTest test;
+
     @Override
     public void onStart(ITestContext context) {
 
-        System.out.println("\n");
-        System.out.println("====================================================");
-        System.out.println("          AUTOMATION EXECUTION STARTED");
-        System.out.println("          SUITE : " + context.getName());
-        System.out.println("====================================================");
-        System.out.println("\n");
+        System.out.println("\n====================================");
+        System.out.println(" AUTOMATION EXECUTION STARTED");
+        System.out.println("====================================\n");
 
         excel.createExcelFile();
     }
@@ -26,21 +32,24 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
 
-        System.out.println("\n");
-        System.out.println("----------------------------------------------------");
-        System.out.println("STARTING TEST : "
+        test = extent.createTest(
+                result.getMethod().getMethodName());
+
+        System.out.println("\n====================================================");
+        System.out.println("TEST CASE : "
                 + result.getMethod().getMethodName());
-        System.out.println("----------------------------------------------------");
-        System.out.println("\n");
+        System.out.println("STATUS    : RUNNING");
+        System.out.println("====================================================");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
 
-        String testName = result.getMethod().getMethodName();
+        test.pass("Test Passed");
 
         System.out.println("====================================================");
-        System.out.println("TEST CASE : " + testName);
+        System.out.println("TEST CASE : "
+                + result.getMethod().getMethodName());
         System.out.println("STATUS    : PASSED");
         System.out.println("====================================================");
 
@@ -50,10 +59,11 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
 
-        String testName = result.getMethod().getMethodName();
+        test.fail(result.getThrowable());
 
         System.out.println("====================================================");
-        System.out.println("TEST CASE : " + testName);
+        System.out.println("TEST CASE : "
+                + result.getMethod().getMethodName());
         System.out.println("STATUS    : FAILED");
         System.out.println("REASON    : "
                 + result.getThrowable());
@@ -65,10 +75,11 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestSkipped(ITestResult result) {
 
-        String testName = result.getMethod().getMethodName();
+        test.skip("Test Skipped");
 
         System.out.println("====================================================");
-        System.out.println("TEST CASE : " + testName);
+        System.out.println("TEST CASE : "
+                + result.getMethod().getMethodName());
         System.out.println("STATUS    : SKIPPED");
         System.out.println("====================================================");
     }
@@ -76,11 +87,14 @@ public class TestListener implements ITestListener {
     @Override
     public void onFinish(ITestContext context) {
 
-        System.out.println("\n");
+        extent.flush();
+
+        System.out.println("\n====================================================");
+        System.out.println(" AUTOMATION EXECUTION COMPLETED");
         System.out.println("====================================================");
-        System.out.println("          AUTOMATION EXECUTION COMPLETED");
-        System.out.println("====================================================");
-        System.out.println("\n");
+
+        System.out.println("\n📊 Extent Report Generated:");
+        System.out.println("test-output\\ExtentReport.html");
     }
 
     private void routeToExcelSuite(
@@ -98,16 +112,15 @@ public class TestListener implements ITestListener {
 
         for (String group : groups) {
 
-            if (group.equalsIgnoreCase("smoke")) {
+            if (group.equalsIgnoreCase("smoke"))
                 isSmoke = true;
-            }
 
-            if (group.equalsIgnoreCase("regression")) {
+            if (group.equalsIgnoreCase("regression"))
                 isRegression = true;
-            }
         }
 
         if (isSmoke) {
+
             excel.logSuiteResult(
                     "SmokeSuite",
                     testName,
@@ -115,6 +128,7 @@ public class TestListener implements ITestListener {
         }
 
         if (isRegression) {
+
             excel.logSuiteResult(
                     "RegressionSuite",
                     testName,
