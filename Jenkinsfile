@@ -1,24 +1,40 @@
 pipeline {
-    agent any
 
-    tools {
-        jdk 'Java21'
-        maven 'Maven3'
-    }
+    agent any
 
     stages {
 
-        stage('Checkout') {
+        stage('Check Environment') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/Bhargav1258/milestone_Automation-practice.git'
+                bat 'java -version'
+                bat 'mvn -version'
             }
         }
 
-        stage('Build') {
+        stage('Clean Project') {
             steps {
-                bat 'mvn clean test'
+                bat 'mvn clean'
             }
+        }
+
+        stage('Run Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Execution Completed'
+        }
+
+        success {
+            echo 'Build Successful'
+        }
+
+        failure {
+            echo 'Build Failed'
         }
     }
 }
