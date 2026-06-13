@@ -275,4 +275,17 @@ public class AutomationPracticeTest extends BaseClass {
     	        throws InterruptedException {
 
     	    page.executeUnit11_ShadowDOM();
-    	}}
+    	}
+//    @Test(priority = 13, groups = {"regression"})
+//    public void Unit13_BlankFormSubmission() {
+//
+//        System.out.println("Executing Unit 13 - Blank Form");
+//
+//        page.enterName("");
+//        page.enterEmail("");
+//        page.enterPhone("");
+//        page.enterAddress("");
+//
+//        Assert.fail("Form submitted with blank mandatory fields");
+//    }
+    }

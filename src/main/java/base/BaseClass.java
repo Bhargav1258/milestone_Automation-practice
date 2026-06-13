@@ -34,7 +34,7 @@ public class BaseClass {
             System.out.println(" CLOSING BROWSER...");
             System.out.println("====================================");
 
-            driver.quit();
+            driver.close();
 
             driver = null;
         }

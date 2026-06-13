@@ -55,23 +55,28 @@ public class TestListener implements ITestListener {
 
         routeToExcelSuite(result, "PASSED");
     }
+    
 
     @Override
     public void onTestFailure(ITestResult result) {
 
-        test.fail(result.getThrowable());
+        String reason = "Unknown Error";
+
+        if(result.getThrowable() != null) {
+            reason = result.getThrowable().getMessage();
+        }
+
+        test.fail(reason);
 
         System.out.println("====================================================");
         System.out.println("TEST CASE : "
                 + result.getMethod().getMethodName());
         System.out.println("STATUS    : FAILED");
-        System.out.println("REASON    : "
-                + result.getThrowable());
+        System.out.println("REASON    : " + reason);
         System.out.println("====================================================");
 
         routeToExcelSuite(result, "FAILED");
     }
-
     @Override
     public void onTestSkipped(ITestResult result) {
 

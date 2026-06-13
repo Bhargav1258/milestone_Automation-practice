@@ -265,20 +265,14 @@ public class AutomationPracticePage {
 
                if(!checkbox.isSelected()) {
 
-                   js.executeScript(
-                       "arguments[0].scrollIntoView(true);",
-                       checkbox);
-
-                   Thread.sleep(500); // wait after scroll
-
-                   js.executeScript(
-                       "arguments[0].click();",
-                       checkbox);
+                
+                   Thread.sleep(500); 
+                   js.executeScript( "arguments[0].click();",checkbox);
 
                }
            }
 
-           Thread.sleep(1000); // wait before next page
+           Thread.sleep(1000); 
        }
    }
 	// ==================================
