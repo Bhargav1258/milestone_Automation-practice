@@ -1,165 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="13" passed="12" failed="1" skipped="0">
+<testng-results ignored="10" total="11" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-06-13T10:18:40 IST" name="Default suite" finished-at="2026-06-13T10:22:40 IST" duration-ms="240090">
+  <suite started-at="2026-06-15T11:35:44 IST" name="Default suite" finished-at="2026-06-15T11:36:46 IST" duration-ms="61139">
     <groups>
       <group name="regression">
-        <method signature="AutomationPracticeTest.Unit2_DatePickers()[pri:2, instance:tests.AutomationPracticeTest@424e1977]" name="Unit2_DatePickers" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit4_PaginationWebTable()[pri:4, instance:tests.AutomationPracticeTest@424e1977]" name="Unit4_PaginationWebTable" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit7_TabsAndWindowsValidation()[pri:7, instance:tests.AutomationPracticeTest@424e1977]" name="Unit7_TabsAndWindowsValidation" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit8_AlertsAndPopupsValidation()[pri:8, instance:tests.AutomationPracticeTest@424e1977]" name="Unit8_AlertsAndPopupsValidation" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit10_VerifyLaptopAndBrokenLinks()[pri:10, instance:tests.AutomationPracticeTest@424e1977]" name="Unit10_VerifyLaptopAndBrokenLinks" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@424e1977]" name="Unit11_ShadowDOM" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit13_BlankFormSubmission()[pri:13, instance:tests.AutomationPracticeTest@424e1977]" name="Unit13_BlankFormSubmission" class="tests.AutomationPracticeTest"/>
+        <method signature="AutomationPracticeTest.Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@3098cf3b]" name="Unit11_ShadowDOM" class="tests.AutomationPracticeTest"/>
       </group> <!-- regression -->
-      <group name="smoke">
-        <method signature="AutomationPracticeTest.Unit1_GUIElements(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:tests.AutomationPracticeTest@424e1977]" name="Unit1_GUIElements" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit3_FileUpload()[pri:3, instance:tests.AutomationPracticeTest@424e1977]" name="Unit3_FileUpload" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit5_Form()[pri:5, instance:tests.AutomationPracticeTest@424e1977]" name="Unit5_Form" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.printValidLinksTest()[pri:6, instance:tests.AutomationPracticeTest@424e1977]" name="printValidLinksTest" class="tests.AutomationPracticeTest"/>
-        <method signature="AutomationPracticeTest.Unit9_AdvancedMouseValidation()[pri:9, instance:tests.AutomationPracticeTest@424e1977]" name="Unit9_AdvancedMouseValidation" class="tests.AutomationPracticeTest"/>
-      </group> <!-- smoke -->
     </groups>
-    <test started-at="2026-06-13T10:18:40 IST" name="Default test" finished-at="2026-06-13T10:22:40 IST" duration-ms="240090">
+    <test started-at="2026-06-15T11:35:44 IST" name="Default test" finished-at="2026-06-15T11:36:46 IST" duration-ms="61139">
       <class name="tests.AutomationPracticeTest">
-        <test-method is-config="true" signature="startBrowser()[pri:0, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:18:43 IST" name="startBrowser" finished-at="2026-06-13T10:19:21 IST" duration-ms="38377" status="PASS">
+        <test-method is-config="true" signature="startBrowser()[pri:0, instance:tests.AutomationPracticeTest@3098cf3b]" started-at="2026-06-15T11:35:48 IST" name="startBrowser" finished-at="2026-06-15T11:36:10 IST" duration-ms="22110" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startBrowser -->
-        <test-method signature="Unit1_GUIElements(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:19:21 IST" name="Unit1_GUIElements" data-provider="userData" finished-at="2026-06-13T10:19:25 IST" duration-ms="3848" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[Bhargav]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[bhargav@gmail.com]]>
-              </value>
-            </param>
-            <param index="2">
-              <value>
-                <![CDATA[9876543210]]>
-              </value>
-            </param>
-            <param index="3">
-              <value>
-                <![CDATA[Kakinada]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit1_GUIElements -->
-        <test-method signature="Unit1_GUIElements(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:19:26 IST" name="Unit1_GUIElements" data-provider="userData" finished-at="2026-06-13T10:19:28 IST" duration-ms="2247" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[pavan]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[pavan@gmail.com]]>
-              </value>
-            </param>
-            <param index="2">
-              <value>
-                <![CDATA[9876543210]]>
-              </value>
-            </param>
-            <param index="3">
-              <value>
-                <![CDATA[mumbai]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit1_GUIElements -->
-        <test-method signature="Unit2_DatePickers()[pri:2, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:19:28 IST" name="Unit2_DatePickers" finished-at="2026-06-13T10:19:34 IST" duration-ms="5929" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit2_DatePickers -->
-        <test-method signature="Unit3_FileUpload()[pri:3, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:19:34 IST" name="Unit3_FileUpload" finished-at="2026-06-13T10:19:39 IST" duration-ms="4346" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit3_FileUpload -->
-        <test-method signature="Unit4_PaginationWebTable()[pri:4, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:19:39 IST" name="Unit4_PaginationWebTable" finished-at="2026-06-13T10:20:09 IST" duration-ms="30577" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit4_PaginationWebTable -->
-        <test-method signature="Unit5_Form()[pri:5, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:20:09 IST" name="Unit5_Form" finished-at="2026-06-13T10:20:20 IST" duration-ms="10138" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit5_Form -->
-        <test-method signature="printValidLinksTest()[pri:6, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:20:20 IST" name="printValidLinksTest" finished-at="2026-06-13T10:20:22 IST" duration-ms="2018" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- printValidLinksTest -->
-        <test-method signature="Unit7_TabsAndWindowsValidation()[pri:7, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:20:22 IST" name="Unit7_TabsAndWindowsValidation" finished-at="2026-06-13T10:20:34 IST" duration-ms="12040" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit7_TabsAndWindowsValidation -->
-        <test-method signature="Unit8_AlertsAndPopupsValidation()[pri:8, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:20:34 IST" name="Unit8_AlertsAndPopupsValidation" finished-at="2026-06-13T10:20:55 IST" duration-ms="20961" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit8_AlertsAndPopupsValidation -->
-        <test-method signature="Unit9_AdvancedMouseValidation()[pri:9, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:20:55 IST" name="Unit9_AdvancedMouseValidation" finished-at="2026-06-13T10:21:09 IST" duration-ms="13951" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit9_AdvancedMouseValidation -->
-        <test-method signature="Unit10_VerifyLaptopAndBrokenLinks()[pri:10, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:21:09 IST" name="Unit10_VerifyLaptopAndBrokenLinks" finished-at="2026-06-13T10:22:24 IST" duration-ms="74888" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- Unit10_VerifyLaptopAndBrokenLinks -->
-        <test-method signature="Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:22:24 IST" name="Unit11_ShadowDOM" finished-at="2026-06-13T10:22:39 IST" duration-ms="15024" status="PASS">
+        <test-method signature="Unit11_ShadowDOM()[pri:11, instance:tests.AutomationPracticeTest@3098cf3b]" started-at="2026-06-15T11:36:10 IST" name="Unit11_ShadowDOM" finished-at="2026-06-15T11:36:44 IST" duration-ms="33997" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Unit11_ShadowDOM -->
-        <test-method signature="Unit13_BlankFormSubmission()[pri:13, instance:tests.AutomationPracticeTest@424e1977]" started-at="2026-06-13T10:22:39 IST" name="Unit13_BlankFormSubmission" finished-at="2026-06-13T10:22:40 IST" duration-ms="873" status="FAIL">
-          <exception class="java.lang.AssertionError">
-            <message>
-              <![CDATA[Form submitted with blank mandatory fields]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: Form submitted with blank mandatory fields
-at org.testng.Assert.fail(Assert.java:111)
-at tests.AutomationPracticeTest.Unit13_BlankFormSubmission(AutomationPracticeTest.java:289)
-at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
-at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
-at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
-at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
-at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
-at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
-at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
-at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-at org.testng.TestRunner.privateRun(TestRunner.java:741)
-at org.testng.TestRunner.run(TestRunner.java:616)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
-at org.testng.SuiteRunner.run(SuiteRunner.java:312)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
-at org.testng.TestNG.runSuites(TestNG.java:1112)
-at org.testng.TestNG.run(TestNG.java:1079)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.AssertionError -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.AutomationPracticeTest@3098cf3b]" started-at="2026-06-15T11:36:45 IST" name="tearDown" finished-at="2026-06-15T11:36:46 IST" duration-ms="957" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- Unit13_BlankFormSubmission -->
+        </test-method> <!-- tearDown -->
       </class> <!-- tests.AutomationPracticeTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->

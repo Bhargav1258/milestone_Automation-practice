@@ -178,13 +178,8 @@ public class AutomationPracticePage {
     }
 
     public void submitDateRange() {
-
-        JavascriptExecutor js =
-                (JavascriptExecutor) driver;
-
-        js.executeScript(
-                "arguments[0].click();",
-                driver.findElement(submitDateBtn));
+    	JavascriptExecutor js = (JavascriptExecutor) driver;
+    	js.executeScript("arguments[0].click();",driver.findElement(submitDateBtn));
     }
     // ==================================
     // UNIT 3 METHODS
@@ -192,26 +187,21 @@ public class AutomationPracticePage {
 
     public void uploadSingleFile(String path) {
 
-        driver.findElement(singleFile)
-                .sendKeys(path);
+        driver.findElement(singleFile).sendKeys(path);
     }
 
     public void uploadMultipleFiles(
-            String file1,
-            String file2) {
+            String file1, String file2) {
 
-        driver.findElement(multipleFiles)
-                .sendKeys(file1 + "\n" + file2);
+        driver.findElement(multipleFiles).sendKeys(file1 + "\n" + file2);
     }
  // ==================================
  // UNIT 4 - PAGINATION WEB TABLE
  // ==================================
 
-    By pages =
-            By.xpath("//ul[@id='pagination']/li");
+   By pages =By.xpath("//ul[@id='pagination']/li");
 
-   By tableRows =
-            By.xpath("//table[@id='productTable']/tbody/tr");
+   By tableRows = By.xpath("//table[@id='productTable']/tbody/tr");
 
    public int getTotalPages() {
 
@@ -220,54 +210,40 @@ public class AutomationPracticePage {
 
    public void selectAllProductsInAllPages() throws InterruptedException {
 
-       List<WebElement> totalPages =
-               driver.findElements(pages);
+       List<WebElement> totalPages = driver.findElements(pages);
 
        int pageCount = totalPages.size();
 
-       JavascriptExecutor js =
-               (JavascriptExecutor) driver;
+       JavascriptExecutor js = (JavascriptExecutor) driver;
 
        for(int p=1; p<=pageCount; p++) {
 
            if(p>1) {
 
-               driver.findElement(
-               By.xpath("//ul[@id='pagination']/li["+p+"]"))
-               .click();
+               driver.findElement(By.xpath("//ul[@id='pagination']/li["+p+"]")).click();
 
            
            }
 
-           List<WebElement> rows =
-                   driver.findElements(tableRows);
+           List<WebElement> rows = driver.findElements(tableRows);
 
            for(int r=1; r<=rows.size(); r++) {
 
-               String product =
-               driver.findElement(
-               By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[2]"))
-               .getText();
+               String product =driver.findElement( By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[2]")).getText();
 
-               String price =
-               driver.findElement(
-               By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[3]"))
-               .getText();
+               String price = driver.findElement( By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[3]")) .getText();
 
-               System.out.println(product +
-                       " --> " + price);
+               System.out.println(product + " --> " + price);
 
-               Thread.sleep(500); // wait before selecting checkbox
+             //  Thread.sleep(500); // wait before selecting checkbox
 
-               WebElement checkbox =
-               driver.findElement(
+               WebElement checkbox =driver.findElement(
                By.xpath("//table[@id='productTable']/tbody/tr["+r+"]/td[4]/input"));
 
                if(!checkbox.isSelected()) {
 
                 
-                   Thread.sleep(500); 
-                   js.executeScript( "arguments[0].click();",checkbox);
+                   Thread.sleep(500);  js.executeScript( "arguments[0].click();",checkbox);
 
                }
            }
@@ -436,12 +412,13 @@ public class AutomationPracticePage {
 		    driver.switchTo().alert().dismiss();
 
 		    driver.findElement(promptButton).click();
-		    Thread.sleep(3000);
+		    Thread.sleep(1000);
 		    driver.switchTo().alert().sendKeys("Bhargav Automation");
 		    Thread.sleep(1000);
 		    driver.switchTo().alert().accept();
 
 		    // ---- Part 2: New Tab ----
+		    Thread.sleep(2000);
 		    js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(tabButton));
 		    driver.findElement(tabButton).click();
 		    Thread.sleep(2000);
@@ -461,7 +438,7 @@ public class AutomationPracticePage {
 		    WebElement popupBtn = wait.until(ExpectedConditions.elementToBeClickable(popUpWindowButton));
 		    popupBtn.click();
 		    
-		    Thread.sleep(2000);
+		    Thread.sleep(1000);
 
 		    Set<String> allWindows = driver.getWindowHandles();
 		    for (String handle : allWindows) {

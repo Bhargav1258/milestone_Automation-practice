@@ -9,7 +9,7 @@ pipeline {
                 bat 'java -version'
                 bat 'mvn -version'
             }
-        }
+        } 
 
         stage('Clean Project') {
             steps {

@@ -5,7 +5,7 @@
     <classes>
       <class name="tests.AutomationPracticeTest">
         <methods>
-          <include name="Unit13_BlankFormSubmission"/>
+          <include name="Unit11_ShadowDOM"/>
           <include name="startBrowser"/>
         </methods>
       </class> <!-- tests.AutomationPracticeTest -->

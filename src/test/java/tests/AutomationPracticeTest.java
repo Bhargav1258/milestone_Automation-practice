@@ -8,7 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -288,4 +288,20 @@ public class AutomationPracticeTest extends BaseClass {
 //
 //        Assert.fail("Form submitted with blank mandatory fields");
 //    }
+    @AfterTest
+    public void tearDown() {
+
+        if(driver != null) {
+
+            System.out.println();
+            System.out.println("====================================");
+            System.out.println(" CLOSING BROWSER...");
+            System.out.println("====================================");
+
+            driver.quit();
+
+            driver = null;
+        }
+    }
+    
     }
